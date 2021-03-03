@@ -234,6 +234,8 @@ fn evaluate_reference(name: &str, ctx: &EvaluationContext, tag: Tag) -> Result<V
     match name {
         "$nu" => crate::evaluate::variables::nu(&ctx.scope.get_env_vars(), tag),
 
+        "$scope" => crate::evaluate::variables::scope(&ctx.scope, tag),
+
         "$true" => Ok(Value {
             value: UntaggedValue::boolean(true),
             tag,

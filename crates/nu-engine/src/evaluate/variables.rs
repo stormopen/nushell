@@ -1,4 +1,5 @@
 use crate::history_path::history_path;
+use crate::Scope;
 use indexmap::IndexMap;
 use nu_errors::ShellError;
 use nu_protocol::{TaggedDictBuilder, UntaggedValue, Value};
@@ -61,6 +62,14 @@ pub fn nu(env: &IndexMap<String, String>, tag: impl Into<Tag>) -> Result<Value, 
         "history-path",
         UntaggedValue::filepath(history).into_value(&tag),
     );
+
+    Ok(nu_dict.into_value())
+}
+
+pub fn scope(_scope: &Scope, tag: impl Into<Tag>) -> Result<Value, ShellError> {
+    let tag = tag.into();
+
+    let nu_dict = TaggedDictBuilder::new(&tag);
 
     Ok(nu_dict.into_value())
 }
