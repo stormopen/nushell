@@ -71,6 +71,20 @@ impl Scope {
         }
     }
 
+    pub fn get_alias_names(&self) -> Vec<String> {
+        let mut names = vec![];
+
+        for frame in self.frames.lock().iter() {
+            let mut frame_command_names = frame.get_alias_names();
+            names.append(&mut frame_command_names);
+        }
+
+        names.dedup();
+        names.sort();
+
+        names
+    }
+
     pub fn get_command_names(&self) -> Vec<String> {
         let mut names = vec![];
 
@@ -273,6 +287,10 @@ impl ScopeFrame {
 
     pub fn has_alias(&self, name: &str) -> bool {
         self.aliases.contains_key(name)
+    }
+
+    pub fn get_alias_names(&self) -> Vec<String> {
+        self.aliases.keys().map(|x| x.to_string()).collect()
     }
 
     pub fn get_command_names(&self) -> Vec<String> {
