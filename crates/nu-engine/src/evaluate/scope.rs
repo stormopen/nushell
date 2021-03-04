@@ -237,6 +237,7 @@ impl ParserScope for Scope {
 
     fn add_alias(&self, name: &str, replacement: Vec<Spanned<String>>) {
         // Note: this is assumed to always be true, as there is always a global top frame
+        // println!("add_alias {:?} {:?}", name, replacement);
         if let Some(frame) = self.frames.lock().last_mut() {
             frame.aliases.insert(name.to_string(), replacement);
         }
