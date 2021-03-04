@@ -1915,6 +1915,7 @@ fn parse_alias(call: &LiteCommand, scope: &dyn ParserScope) -> Option<ParseError
     let name = call.parts[1].item.clone();
     let args: Vec<_> = call.parts.iter().skip(3).cloned().collect();
 
+    //println!("parse_alias {:?} {:?}",name,args);
     scope.add_alias(&name, args);
 
     None
