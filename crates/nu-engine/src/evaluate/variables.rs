@@ -66,11 +66,16 @@ pub fn nu(env: &IndexMap<String, String>, tag: impl Into<Tag>) -> Result<Value, 
 }
 
 pub fn scope(aliases: &Vec<String>, tag: impl Into<Tag>) -> Result<Value, ShellError> {
+    println!("aliases {:?}", aliases);
     let tag = tag.into();
 
-    let nu_dict = TaggedDictBuilder::new(&tag);
+    let mut nu_dict = TaggedDictBuilder::new(&tag);
+    let mut dict = TaggedDictBuilder::new(&tag);
 
-    println!("aliases {:?}", aliases);
+    for v in aliases.iter() {
+        dict.insert_untagged(v, UntaggedValue::string("rick"));
+    }
 
+    nu_dict.insert_value("aliases", dict.into_value());
     Ok(nu_dict.into_value())
 }
