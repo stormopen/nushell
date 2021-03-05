@@ -65,10 +65,12 @@ pub fn nu(env: &IndexMap<String, String>, tag: impl Into<Tag>) -> Result<Value, 
     Ok(nu_dict.into_value())
 }
 
-pub fn scope(_scope: &IndexMap<String, Value>, tag: impl Into<Tag>) -> Result<Value, ShellError> {
+pub fn scope(aliases: &Vec<String>, tag: impl Into<Tag>) -> Result<Value, ShellError> {
     let tag = tag.into();
 
     let nu_dict = TaggedDictBuilder::new(&tag);
+
+    println!("aliases {:?}", aliases);
 
     Ok(nu_dict.into_value())
 }
