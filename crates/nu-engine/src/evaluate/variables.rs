@@ -2,7 +2,7 @@ use crate::history_path::history_path;
 use indexmap::IndexMap;
 use nu_errors::ShellError;
 use nu_protocol::{TaggedDictBuilder, UntaggedValue, Value};
-use nu_source::Tag;
+use nu_source::{Spanned, Tag};
 
 pub fn nu(env: &IndexMap<String, String>, tag: impl Into<Tag>) -> Result<Value, ShellError> {
     let tag = tag.into();
@@ -65,7 +65,8 @@ pub fn nu(env: &IndexMap<String, String>, tag: impl Into<Tag>) -> Result<Value, 
     Ok(nu_dict.into_value())
 }
 
-pub fn scope(aliases: &Vec<String>, tag: impl Into<Tag>) -> Result<Value, ShellError> {
+/*
+pub fn scope_old_vec(aliases: &Vec<String>, tag: impl Into<Tag>) -> Result<Value, ShellError> {
     println!("aliases {:?}", aliases);
     let tag = tag.into();
 
@@ -78,4 +79,33 @@ pub fn scope(aliases: &Vec<String>, tag: impl Into<Tag>) -> Result<Value, ShellE
 
     nu_dict.insert_value("aliases", dict.into_value());
     Ok(nu_dict.into_value())
+}
+*/
+
+pub fn scope(
+    aliases: &IndexMap<String, Vec<Spanned<String>>>,
+    tag: impl Into<Tag>,
+) -> Result<Value, ShellError> {
+    //println!("aliases {:?}", aliases);
+    let tag = tag.into();
+    /*
+        let mut nu_dict = TaggedDictBuilder::new(&tag);
+        let mut dict = TaggedDictBuilder::new(&tag);
+
+        for v in aliases.iter() {
+            dict.insert_untagged(v, UntaggedValue::string("rick"));
+        }
+    */
+
+    let mut scope_dict = TaggedDictBuilder::new(&tag);
+
+    let mut dict = TaggedDictBuilder::new(&tag);
+    for v in aliases.iter() {
+        //dict.insert_untagged(v.0, UntaggedValue::string(v.1));
+        println!("{:?}", v);
+        dict.insert_untagged(v.0, UntaggedValue::string("rick"));
+    }
+
+    scope_dict.insert_value("aliases", dict.into_value());
+    Ok(scope_dict.into_value())
 }
