@@ -102,7 +102,9 @@ pub fn scope(
     let mut dict = TaggedDictBuilder::new(&tag);
     for v in aliases.iter() {
         //dict.insert_untagged(v.0, UntaggedValue::string(v.1));
-        println!("{:?}", v);
+        let spanned = v.1.clone();
+
+        println!("{:?}", spanned.get(0).unwrap().to_string());
         dict.insert_untagged(v.0, UntaggedValue::string("rick"));
     }
 
