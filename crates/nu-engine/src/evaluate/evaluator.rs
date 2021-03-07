@@ -236,11 +236,6 @@ fn evaluate_reference(name: &str, ctx: &EvaluationContext, tag: Tag) -> Result<V
 
         "$scope" => crate::evaluate::variables::scope(&ctx.scope.get_aliases(), tag),
 
-        "$rick" => Ok(Value {
-            value: UntaggedValue::boolean(true),
-            tag,
-        }),
-
         "$true" => Ok(Value {
             value: UntaggedValue::boolean(true),
             tag,
