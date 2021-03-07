@@ -106,10 +106,32 @@ pub fn scope(
                 let spanned = v.1.clone();
                 println!("{:?}", spanned.get(0).unwrap().to_string());
         */
+        /*
         let value = v.1.clone().get(0).unwrap().to_string();
-        println!("{:?}", value);
-
         dict.insert_untagged(v.0, UntaggedValue::string(value));
+        */
+
+        //        let value = v.1.clone().get(0).unwrap().to_string();
+
+        // does not work...
+        //        let value = v.1.clone().collect().unwrap().to_string();
+
+        let values = v.1.clone();
+
+        let mut vec = Vec::new();
+
+        for k in values.iter() {
+            println!("{:?}", k);
+            vec.push(k.to_string());
+        }
+
+        let alias = vec.join(" ");
+
+        println!("{:?}", alias);
+
+        //println!("{:?}", value);
+
+        dict.insert_untagged(v.0, UntaggedValue::string(alias));
     }
 
     scope_dict.insert_value("aliases", dict.into_value());
