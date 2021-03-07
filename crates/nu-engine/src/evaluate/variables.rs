@@ -65,59 +65,17 @@ pub fn nu(env: &IndexMap<String, String>, tag: impl Into<Tag>) -> Result<Value, 
     Ok(nu_dict.into_value())
 }
 
-/*
-pub fn scope_old_vec(aliases: &Vec<String>, tag: impl Into<Tag>) -> Result<Value, ShellError> {
-    println!("aliases {:?}", aliases);
-    let tag = tag.into();
-
-    let mut nu_dict = TaggedDictBuilder::new(&tag);
-    let mut dict = TaggedDictBuilder::new(&tag);
-
-    for v in aliases.iter() {
-        dict.insert_untagged(v, UntaggedValue::string("rick"));
-    }
-
-    nu_dict.insert_value("aliases", dict.into_value());
-    Ok(nu_dict.into_value())
-}
-*/
-
 pub fn scope(
     aliases: &IndexMap<String, Vec<Spanned<String>>>,
     tag: impl Into<Tag>,
 ) -> Result<Value, ShellError> {
-    //println!("aliases {:?}", aliases);
     let tag = tag.into();
-    /*
-        let mut nu_dict = TaggedDictBuilder::new(&tag);
-        let mut dict = TaggedDictBuilder::new(&tag);
-
-        for v in aliases.iter() {
-            dict.insert_untagged(v, UntaggedValue::string("rick"));
-        }
-    */
 
     let mut scope_dict = TaggedDictBuilder::new(&tag);
 
     let mut dict = TaggedDictBuilder::new(&tag);
     for v in aliases.iter() {
-        //dict.insert_untagged(v.0, UntaggedValue::string(v.1));
-        /*
-                let spanned = v.1.clone();
-                println!("{:?}", spanned.get(0).unwrap().to_string());
-        */
-        /*
-        let value = v.1.clone().get(0).unwrap().to_string();
-        dict.insert_untagged(v.0, UntaggedValue::string(value));
-        */
-
-        //        let value = v.1.clone().get(0).unwrap().to_string();
-
-        // does not work...
-        //        let value = v.1.clone().collect().unwrap().to_string();
-
         let values = v.1.clone();
-
         let mut vec = Vec::new();
 
         for k in values.iter() {
@@ -126,11 +84,7 @@ pub fn scope(
         }
 
         let alias = vec.join(" ");
-
         println!("{:?}", alias);
-
-        //println!("{:?}", value);
-
         dict.insert_untagged(v.0, UntaggedValue::string(alias));
     }
 
